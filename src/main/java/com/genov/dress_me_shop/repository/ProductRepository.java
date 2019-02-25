@@ -16,7 +16,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	Optional<Product> findByModel(String model);
 
 	@Query(value =
-	        "SELECT * FROM products AS p "
+	        "SELECT p.id, p.description, p.model, p.price, p.brand_id "
+	        + "FROM products AS p "
 	        + "JOIN brands AS b "
 	        + "ON p.brand_id = b.id "
 	        + "JOIN products_categories AS pc "
@@ -35,7 +36,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	        	+ "IF(:#{#example.minPrice} IS NULL, 0, :#{#example.minPrice}) "
 	        	+ "AND "
 	        	+ "IF(:#{#example.maxPrice} IS NULL, 1000000000, :#{#example.maxPrice})) "
-	       
 	        + "GROUP BY p.id"
 			,nativeQuery = true
 			)

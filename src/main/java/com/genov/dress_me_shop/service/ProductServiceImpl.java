@@ -120,8 +120,9 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Page<Product> search(ProductSearchDTO searchDTO) {
-		return this.productRepository
+		Page<Product> product = this.productRepository
 				.search(searchDTO, PageRequest.of(searchDTO.getPage() - 1, searchDTO.getPageSize()));
+		return product;
 	}
 
 	@Override

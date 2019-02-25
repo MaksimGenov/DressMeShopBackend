@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.genov.dress_me_shop.domain.Product;
 import com.genov.dress_me_shop.dto.product.ProductCreateDTO;
+import com.genov.dress_me_shop.dto.product.ProductDTO;
 import com.genov.dress_me_shop.dto.product.ProductDetailsDTO;
 import com.genov.dress_me_shop.dto.product.ProductSearchDTO;
 import com.genov.dress_me_shop.dto.product.ProductUpdateDTO;
@@ -55,15 +56,15 @@ public class ProductController {
 	}
 	
 	@GetMapping
-	public Page<ProductDetailsDTO> getPage(Pageable pageRequest) {
+	public Page<ProductDTO> getPage(Pageable pageRequest) {
 		return this.productService.getPage(pageRequest)
-				.map(product -> this.mapper.map(product, ProductDetailsDTO.class));
+				.map(product -> this.mapper.map(product, ProductDTO.class));
 	}
 	
 	@PostMapping("/search")
-	public Page<ProductDetailsDTO> search(@RequestBody ProductSearchDTO searchDTO) {
+	public Page<ProductDTO> search(@RequestBody ProductSearchDTO searchDTO) {
 		return this.productService.search(searchDTO)
-				.map(product -> this.mapper.map(product, ProductDetailsDTO.class));
+				.map(product -> this.mapper.map(product, ProductDTO.class));
 	}
 	
 	@PutMapping("/edit")
