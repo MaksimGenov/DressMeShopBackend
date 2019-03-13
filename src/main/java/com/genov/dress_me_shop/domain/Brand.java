@@ -17,7 +17,7 @@ public class Brand extends BaseEntity {
 	private Image image;
 	private Set<Product> products;
 
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	public String getName() {
 		return name;
 	}

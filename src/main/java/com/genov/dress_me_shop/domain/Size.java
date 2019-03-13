@@ -13,7 +13,7 @@ public class Size extends BaseEntity {
 	private String name;
 	private Set<SizeQuantity> sizeQuantities;
 
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	public String getName() {
 		return name;
 	}

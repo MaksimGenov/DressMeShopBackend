@@ -35,7 +35,7 @@ public class AppUser extends BaseEntity {
 		return password;
 	}
 
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	public String getEmail() {
 		return email;
 	}

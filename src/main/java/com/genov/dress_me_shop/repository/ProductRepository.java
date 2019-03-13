@@ -16,7 +16,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	Optional<Product> findByModel(String model);
 
 	@Query(value =
-	        "SELECT p.id, p.description, p.model, p.price, p.brand_id "
+	        "SELECT p.id, p.description, p.model, p.price, p.brand_id, p.creation_date "
 	        + "FROM products AS p "
 	        + "JOIN brands AS b "
 	        + "ON p.brand_id = b.id "

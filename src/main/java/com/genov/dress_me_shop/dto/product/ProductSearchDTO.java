@@ -4,15 +4,24 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.genov.dress_me_shop.dto.PageRequestDTO;
+
 public class ProductSearchDTO {
 	private String model;
 	private String brand;
-	private Integer page;
-	private Integer pageSize;
 	private BigDecimal minPrice;
 	private BigDecimal maxPrice;
+	private PageRequestDTO pageRequest;
 	private Set<String> categories;
 	private Set<String> sizes;
+
+	public PageRequestDTO getPageRequest() {
+		return pageRequest;
+	}
+
+	public void setPageRequest(PageRequestDTO pageRequest) {
+		this.pageRequest = pageRequest;
+	}
 
 	public String getModel() {
 		return model;
@@ -20,14 +29,6 @@ public class ProductSearchDTO {
 
 	public String getBrand() {
 		return brand;
-	}
-
-	public Integer getPage() {
-		return page;
-	}
-
-	public Integer getPageSize() {
-		return pageSize;
 	}
 
 	public BigDecimal getMinPrice() {
@@ -52,14 +53,6 @@ public class ProductSearchDTO {
 
 	public void setBrand(String brand) {
 		this.brand = brand;
-	}
-
-	public void setPage(Integer page) {
-		this.page = page;
-	}
-
-	public void setPageSize(Integer pageSize) {
-		this.pageSize = pageSize;
 	}
 
 	public void setMinPrice(BigDecimal minPrice) {

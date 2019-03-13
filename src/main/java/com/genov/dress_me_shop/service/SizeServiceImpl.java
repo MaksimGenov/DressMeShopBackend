@@ -5,7 +5,6 @@ import java.util.NoSuchElementException;
 
 import javax.validation.ConstraintViolationException;
 
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.genov.dress_me_shop.domain.Size;

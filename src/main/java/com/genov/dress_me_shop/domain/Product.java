@@ -1,6 +1,7 @@
 package com.genov.dress_me_shop.domain;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -13,14 +14,13 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import org.hibernate.annotations.OrderBy;
-
 
 @Entity(name = "products")
 public class Product extends BaseEntity {
 	private String model;
 	private String description;
 	private BigDecimal price;
+	private Date creationDate;
 	private Brand brand;
 	private Set<Category> categories;
 	private List<SizeQuantity> sizes;
@@ -39,6 +39,11 @@ public class Product extends BaseEntity {
 	@Column(nullable = false)
 	public BigDecimal getPrice() {
 		return price;
+	}
+	
+	@Column(name = "creation_date" ,nullable = false)
+	public Date getCreationDate() {
+		return creationDate;
 	}
 
 	@ManyToOne
@@ -78,6 +83,10 @@ public class Product extends BaseEntity {
 
 	public void setPrice(BigDecimal price) {
 		this.price = price;
+	}
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
 	}
 
 	public void setBrand(Brand brand) {

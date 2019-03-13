@@ -56,7 +56,7 @@ public class BrandServiceImpl implements BrandService {
 	public Brand update(BrandUpdateDTO brandUpdateDTO, MultipartFile file) {
 		if (!this.validationUtil.isValid(brandUpdateDTO))
 			throw new ConstraintViolationException(this.validationUtil.getViolations(brandUpdateDTO));
-				
+
 		Brand oldBrand = this.getById(brandUpdateDTO.getId());
 		Brand newBrand = this.mapper.map(brandUpdateDTO, Brand.class);
 		

@@ -25,9 +25,10 @@ public class SizeController {
 	}
 
 	@PostMapping("/create")
-	public Size create(@RequestBody SizeCreateDTO sizeCreateDTO) {
+	public SizeDTO create(@RequestBody SizeCreateDTO sizeCreateDTO) {	
+		Size size = this.sizeService.create(sizeCreateDTO);
 		
-		return this.sizeService.create(sizeCreateDTO);
+		return this.mapper.map(size, SizeDTO.class);
 	}
 	
 	@GetMapping("/all")

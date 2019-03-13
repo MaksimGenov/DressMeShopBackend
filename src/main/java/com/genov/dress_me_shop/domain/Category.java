@@ -11,7 +11,7 @@ public class Category extends BaseEntity {
 	private String name;
 	private Image image;
 
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	public String getName() {
 		return name;
 	}

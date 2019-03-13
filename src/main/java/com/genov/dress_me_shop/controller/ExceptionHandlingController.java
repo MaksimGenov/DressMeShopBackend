@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -26,6 +27,18 @@ public class ExceptionHandlingController {
 		ApiError error = new ApiError();
 		String message = String.join(System.lineSeparator(), ex.getConstraintViolations()
 		.stream().map(v -> v.getPropertyPath() + " - " + v.getMessage()).collect(Collectors.toSet()));
+		error.setStatus(400);
+		error.setMessage(message);
+		error.setError(ex.getMessage());
+		return error;
+	}
+	
+	@ExceptionHandler(value = DataIntegrityViolationException.class)
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	@ResponseBody
+	public ApiError test(HttpServletRequest req, DataIntegrityViolationException ex) {
+		ApiError error = new ApiError();
+		String message = ex.getCause().getCause().getMessage();
 		error.setStatus(400);
 		error.setMessage(message);
 		error.setError(ex.getMessage());

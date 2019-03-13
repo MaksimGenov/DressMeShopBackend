@@ -1,6 +1,7 @@
 package com.genov.dress_me_shop.service;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -11,6 +12,8 @@ import javax.validation.ConstraintViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -80,6 +83,7 @@ public class ProductServiceImpl implements ProductService {
 		product.setBrand(brand);
 		product.setCategories(categories);
 		product.setImages(images);
+		product.setCreationDate(new Date());
 		
 		product = this.productRepository.saveAndFlush(product);
 		
@@ -120,8 +124,19 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public Page<Product> search(ProductSearchDTO searchDTO) {
+		List<Order> orders = searchDTO.getPageRequest().getSort().stream()
+				.map(s -> {
+					if (s.getDirection().equals("asc"))
+						return Order.asc(s.getProperty());
+					return Order.desc(s.getProperty());
+				})
+				.collect(Collectors.toList());
+		Sort sort = Sort.by(orders);
+		Integer page = searchDTO.getPageRequest().getPage() - 1;
+		Integer pageSize = searchDTO.getPageRequest().getSize();
+		Pageable pageRequest = PageRequest.of(page, pageSize, sort);
 		Page<Product> product = this.productRepository
-				.search(searchDTO, PageRequest.of(searchDTO.getPage() - 1, searchDTO.getPageSize()));
+				.search(searchDTO, pageRequest);
 		return product;
 	}
 
@@ -151,5 +166,4 @@ public class ProductServiceImpl implements ProductService {
 		return this.productRepository.saveAndFlush(product);
 	}
 
-	
 }
