@@ -15,8 +15,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
 	Optional<Product> findByModel(String model);
 
-	@Query(value =
-	        "SELECT p.id, p.description, p.model, p.price, p.brand_id, p.creation_date "
+	@Query(value = "SELECT p.id, p.description, p.model, p.price, p.brand_id, p.creation_date "
 	        + "FROM products AS p "
 	        + "JOIN brands AS b "
 	        + "ON p.brand_id = b.id "
@@ -36,8 +35,28 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 	        	+ "IF(:#{#example.minPrice} IS NULL, 0, :#{#example.minPrice}) "
 	        	+ "AND "
 	        	+ "IF(:#{#example.maxPrice} IS NULL, 1000000000, :#{#example.maxPrice})) "
-	        + "GROUP BY p.id"
-			,nativeQuery = true
+	        + "GROUP BY p.id",
+	        countQuery = "SELECT COUNT(DISTINCT p.id) "
+	    	        + "FROM products AS p "
+	    	        + "JOIN brands AS b "
+	    	        + "ON p.brand_id = b.id "
+	    	        + "JOIN products_categories AS pc "
+	    	        + "ON pc.product_id = p.id "
+	    	        + "JOIN categories AS c "
+	    	        + "ON pc.category_id = c.id "
+	    	        + "JOIN size_quantity as sq "
+	    	        + "ON sq.product_id = p.id "
+	    	        + "JOIN sizes as s "
+	    	        + "ON s.id = sq.size_id "
+	    	        + "WHERE (:#{#example.model} IS NULL OR p.model = :#{#example.model}) "
+	    	        + "AND (:#{#example.brand} IS NULL OR b.name = :#{#example.brand}) "
+	    	        + "AND (COALESCE(:#{#example.categories}) IS NULL OR c.name IN :#{#example.categories}) "
+	    	        + "AND (COALESCE(:#{#example.sizes}) IS NULL OR s.name IN :#{#example.sizes}) "
+	    	        + "AND (p.price BETWEEN "
+	    	        	+ "IF(:#{#example.minPrice} IS NULL, 0, :#{#example.minPrice}) "
+	    	        	+ "AND "
+	    	        	+ "IF(:#{#example.maxPrice} IS NULL, 1000000000, :#{#example.maxPrice})) ",
+	    	        	nativeQuery = true
 			)
 	Page<Product> search(@Param("example")ProductSearchDTO example, Pageable pageable);
 }

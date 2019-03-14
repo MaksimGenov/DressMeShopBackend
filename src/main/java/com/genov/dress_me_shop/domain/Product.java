@@ -41,7 +41,7 @@ public class Product extends BaseEntity {
 		return price;
 	}
 	
-	@Column(name = "creation_date" ,nullable = false)
+	@Column(name = "creation_date", nullable = false)
 	public Date getCreationDate() {
 		return creationDate;
 	}
