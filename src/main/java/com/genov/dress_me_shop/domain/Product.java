@@ -25,6 +25,7 @@ public class Product extends BaseEntity {
 	private Set<Category> categories;
 	private List<SizeQuantity> sizes;
 	private Set<Image> images;
+	private List<OrderItem> orderItems;
 
 	@Column(nullable = false)
 	public String getModel() {
@@ -73,6 +74,11 @@ public class Product extends BaseEntity {
 		return images;
 	}
 
+	@OneToMany(mappedBy = "product",fetch=FetchType.LAZY, cascade = CascadeType.REMOVE)
+	public List<OrderItem> getOrderItems() {
+		return orderItems;
+	}
+
 	public void setModel(String model) {
 		this.model = model;
 	}
@@ -101,6 +107,14 @@ public class Product extends BaseEntity {
 		this.sizes = sizes;
 	}
 
+	public void addSize(SizeQuantity size) {
+		this.sizes.add(size);
+	}
+	
+	public void removeSize(SizeQuantity size) {
+		this.sizes.remove(size);
+	}
+	
 	public void setImages(Set<Image> images) {
 		this.images = images;
 	}
@@ -113,12 +127,8 @@ public class Product extends BaseEntity {
 		this.getImages().remove(image);
 	}
 
-	public void addSize(SizeQuantity size) {
-		this.sizes.add(size);
-	}
-	
-	public void removeSize(SizeQuantity size) {
-		this.sizes.remove(size);
+	public void setOrderItems(List<OrderItem> orderItems) {
+		this.orderItems = orderItems;
 	}
 
 }
